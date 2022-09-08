@@ -24,7 +24,7 @@ setup(
     description="Python implementation of the multihash specification",
     long_description=long_description,
 
-    url='https://github.com/ivilata/pymultihash',
+    url='https://github.com/planetmint/pymultihash',
     author="Ivan Vilata-i-Balaguer",
     author_email='ivan@selidor.net',
 
