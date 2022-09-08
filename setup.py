@@ -18,7 +18,7 @@ with open(os.path.join(thisdir, 'README.rst')) as readme:
     long_description = readme.read()
 
 setup(
-    name='pymultihash',
+    name='planetmint-pymultihash',
     version=version,
 
     description="Python implementation of the multihash specification",
