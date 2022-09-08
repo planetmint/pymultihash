@@ -43,15 +43,15 @@ class CodecReg(metaclass=_CodecRegMeta):
 
     # Common codec data.
     _common_codec_data = [  # (name, encode, decode)
-        ('hex', binascii.b2a_hex, binascii.a2b_hex),
-        ('base32', base64.b32encode, base64.b32decode),
-        ('base64', base64.b64encode, base64.b64decode)]
+        ("hex", binascii.b2a_hex, binascii.a2b_hex),
+        ("base32", base64.b32encode, base64.b32decode),
+        ("base64", base64.b64encode, base64.b64decode),
+    ]
     if base58:
-        _common_codec_data.append(
-            ('base58', lambda s: bytes(base58.b58encode(s).decode(), 'ascii'), base58.b58decode))
+        _common_codec_data.append(("base58", lambda s: bytes(base58.b58encode(s).decode(), "ascii"), base58.b58decode))
 
     # Codec data: encoding and decoding functions (both from bytes to bytes).
-    _codec = namedtuple('codec', 'encode decode')
+    _codec = namedtuple("codec", "encode decode")
 
     @classmethod
     def reset(cls):
@@ -123,6 +123,7 @@ class CodecReg(metaclass=_CodecRegMeta):
         b'FOO\x00'
         """
         return cls._codecs[encoding].decode
+
 
 # Initialize the codec registry.
 CodecReg.reset()

@@ -220,8 +220,11 @@ from multihash.codecs import CodecReg  # noqa
 from multihash.multihash import Multihash, digest, decode  # noqa
 
 __all__ = [
-    '__version__',
-    'Func', 'FuncReg',
-    'CodecReg',
-    'Multihash', 'digest', 'decode',
+    "__version__",
+    "Func",
+    "FuncReg",
+    "CodecReg",
+    "Multihash",
+    "digest",
+    "decode",
 ]

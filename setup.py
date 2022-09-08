@@ -8,47 +8,43 @@ from setuptools import setup, find_packages
 thisdir = os.path.abspath(os.path.dirname(__file__))
 
 # Fetch version from source.
-with open(os.path.join(thisdir, 'multihash', 'version.py')) as verfile:
+with open(os.path.join(thisdir, "multihash", "version.py")) as verfile:
     version = {}
     exec(verfile.read(), version)
-    version = version['__version__']
+    version = version["__version__"]
 
 # Load readme file into long description.
-with open(os.path.join(thisdir, 'README.rst')) as readme:
+with open(os.path.join(thisdir, "README.rst")) as readme:
     long_description = readme.read()
 
 setup(
-    name='planetmint-pymultihash',
+    name="planetmint-pymultihash",
     version=version,
-
     description="Python implementation of the multihash specification",
     long_description=long_description,
-
-    url='https://github.com/planetmint/pymultihash',
+    url="https://github.com/planetmint/pymultihash",
     author="Ivan Vilata-i-Balaguer",
-    author_email='ivan@selidor.net',
-
-    license='MIT',
+    author_email="ivan@selidor.net",
+    license="MIT",
     classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-        'Topic :: Security :: Cryptography',
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Topic :: Security :: Cryptography",
     ],
     keywords="multihash hash digest format ASCII encoding",
-
     packages=find_packages(),
     install_requires=[],
     extras_require={
-        'sha3': ['pysha3'],
-        'blake2': ['pyblake2'],
+        "sha3": ["pysha3"],
+        "blake2": ["pyblake2"],
     },
-    test_suite='tests.test_multihash.suite',
+    test_suite="tests.test_multihash.suite",
 )

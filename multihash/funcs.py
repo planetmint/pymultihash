@@ -25,7 +25,7 @@ except ImportError:
 
 def _is_app_specific_func(code):
     """Is the given hash function integer `code` application-specific?"""
-    return isinstance(code, Integral) and (0x00 <= code <= 0x0f)
+    return isinstance(code, Integral) and (0x00 <= code <= 0x0F)
 
 
 class Func(IntEnum):
@@ -37,6 +37,7 @@ class Func(IntEnum):
     >>> Func.sha2_512.value == 0x13
     True
     """
+
     sha1 = 0x11
     sha2_256 = 0x12
     sha2_512 = 0x13
@@ -80,25 +81,22 @@ class FuncReg(metaclass=_FuncRegMeta):
 
     # Standard hash function data.
     _std_func_data = [  # (func, hash name, hash new)
-        (Func.sha1, 'sha1', hashlib.sha1),
-
-        (Func.sha2_256, 'sha256', hashlib.sha256),
-        (Func.sha2_512, 'sha512', hashlib.sha512),
-
-        (Func.sha3_512, 'sha3_512', sha3.sha3_512 if sha3 else None),
-        (Func.sha3_384, 'sha3_384', sha3.sha3_384 if sha3 else None),
-        (Func.sha3_256, 'sha3_256', sha3.sha3_256 if sha3 else None),
-        (Func.sha3_224, 'sha3_224', sha3.sha3_224 if sha3 else None),
-
-        (Func.shake_128, 'shake_128', None),
-        (Func.shake_256, 'shake_256', None),
-
-        (Func.blake2b, 'blake2b', blake2.blake2b if blake2 else None),
-        (Func.blake2s, 'blake2s', blake2.blake2s if blake2 else None)]
+        (Func.sha1, "sha1", hashlib.sha1),
+        (Func.sha2_256, "sha256", hashlib.sha256),
+        (Func.sha2_512, "sha512", hashlib.sha512),
+        (Func.sha3_512, "sha3_512", sha3.sha3_512 if sha3 else None),
+        (Func.sha3_384, "sha3_384", sha3.sha3_384 if sha3 else None),
+        (Func.sha3_256, "sha3_256", sha3.sha3_256 if sha3 else None),
+        (Func.sha3_224, "sha3_224", sha3.sha3_224 if sha3 else None),
+        (Func.shake_128, "shake_128", None),
+        (Func.shake_256, "shake_256", None),
+        (Func.blake2b, "blake2b", blake2.blake2b if blake2 else None),
+        (Func.blake2s, "blake2s", blake2.blake2s if blake2 else None),
+    ]
 
     # Hashlib compatibility data for a hash: hash name (e.g. ``sha256`` for
     # SHA-256, ``sha2-256`` in multihash), and the corresponding constructor.
-    _hash = namedtuple('hash', 'name new')
+    _hash = namedtuple("hash", "name new")
 
     @classmethod
     def reset(cls):
@@ -147,8 +145,8 @@ class FuncReg(metaclass=_FuncRegMeta):
     @classmethod
     def _do_register(cls, code, name, hash_name=None, hash_new=None):
         """Add hash function data to the registry without checks."""
-        cls._func_from_name[name.replace('-', '_')] = code
-        cls._func_from_name[name.replace('_', '-')] = code
+        cls._func_from_name[name.replace("-", "_")] = code
+        cls._func_from_name[name.replace("_", "-")] = code
         if hash_name:
             cls._func_from_hash[hash_name] = code
         cls._func_hash[code] = cls._hash(hash_name, hash_new)
@@ -180,14 +178,12 @@ class FuncReg(metaclass=_FuncRegMeta):
         False
         """
         if not _is_app_specific_func(code):
-            raise ValueError(
-                "only application-specific functions can be registered")
+            raise ValueError("only application-specific functions can be registered")
         # Check already registered name in different mappings.
         name_mapping_data = [  # (mapping, name in mapping, error if existing)
-            (cls._func_from_name, name,
-             "function name is already registered for a different function"),
-            (cls._func_from_hash, hash_name,
-             "hashlib name is already registered for a different function")]
+            (cls._func_from_name, name, "function name is already registered for a different function"),
+            (cls._func_from_hash, hash_name, "hashlib name is already registered for a different function"),
+        ]
         for (mapping, nameinmap, errmsg) in name_mapping_data:
             existing_func = mapping.get(nameinmap, code)
             if existing_func != code:
@@ -218,8 +214,7 @@ class FuncReg(metaclass=_FuncRegMeta):
         KeyError: ('unknown hash function', 'md-5')
         """
         if not _is_app_specific_func(code):
-            raise ValueError(
-                "only application-specific functions can be unregistered")
+            raise ValueError("only application-specific functions can be unregistered")
         # Remove mapping to function by name.
         func_names = {n for (n, f) in cls._func_from_name.items() if f == code}
         for func_name in func_names:
@@ -257,6 +252,7 @@ class FuncReg(metaclass=_FuncRegMeta):
         """
         new = cls._func_hash[func].new
         return new() if new else None
+
 
 # Initialize the function hash registry.
 FuncReg.reset()

@@ -23,7 +23,7 @@ def _do_digest(data, func):
     return bytes(hash.digest())
 
 
-class Multihash(namedtuple('Multihash', 'func digest')):
+class Multihash(namedtuple("Multihash", "func digest")):
     """A named tuple representing a multihash function and digest.
 
     The hash function is usually a `Func` member.
@@ -55,6 +55,7 @@ class Multihash(namedtuple('Multihash', 'func digest')):
         ...
     KeyError: ('unknown hash function', 1234)
     """
+
     __slots__ = ()
 
     def __new__(cls, func, digest):
@@ -91,8 +92,7 @@ class Multihash(namedtuple('Multihash', 'func digest')):
         try:
             func = FuncReg.func_from_hash(hash)
         except KeyError as ke:
-            raise ValueError(
-                "no matching multihash function", hash.name) from ke
+            raise ValueError("no matching multihash function", hash.name) from ke
         digest = hash.digest()
         return Multihash(func, digest)
 
@@ -112,9 +112,9 @@ class Multihash(namedtuple('Multihash', 'func digest')):
         >>> print(mh)
         Multihash(0x1, b64:VEVTVA==)
         """
-        return 'Multihash({func}, b64:{digest})'.format(
+        return "Multihash({func}, b64:{digest})".format(
             func=self.func.name if isinstance(self.func, Func) else hex(self.func),
-            digest=base64.b64encode(self.digest).decode()
+            digest=base64.b64encode(self.digest).decode(),
         )
 
     def encode(self, encoding=None):
@@ -160,7 +160,7 @@ class Multihash(namedtuple('Multihash', 'func digest')):
         `FuncReg`).
         """
         digest = _do_digest(data, self.func)
-        return digest[:len(self.digest)] == self.digest
+        return digest[: len(self.digest)] == self.digest
 
     def truncate(self, length):
         """Return a new `Multihash` with a shorter digest `length`.
@@ -178,8 +178,7 @@ class Multihash(namedtuple('Multihash', 'func digest')):
         ValueError: cannot enlarge the original digest by 4 bytes
         """
         if length > len(self.digest):
-            raise ValueError("cannot enlarge the original digest by %d bytes"
-                             % (length - len(self.digest)))
+            raise ValueError("cannot enlarge the original digest by %d bytes" % (length - len(self.digest)))
         return self.__class__(self.func, self.digest[:length])
 
 
@@ -230,6 +229,5 @@ def decode(mhash, encoding=None):
     except IndexError as ie:
         raise ValueError("multihash is too short") from ie
     if length != len(digest):
-        raise ValueError(
-            "multihash length field does not match digest field length")
+        raise ValueError("multihash length field does not match digest field length")
     return Multihash(func, digest)
