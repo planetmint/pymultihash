@@ -35,7 +35,7 @@ To perform this check, you may first *decode* the multihash (i.e. parse it)
 into a `Multihash` object, which provides the ``verify()`` method to validate
 the given byte string against the encoded digest:
 
->>> import multihash
+>>> import pymultihash
 >>> mh = multihash.decode(mhash, 'base64')
 >>> mh.verify(data)
 True
@@ -120,15 +120,15 @@ version of the multihash.
 The hash function registry
 ==========================
 
-As the multihash specification indicates, you may use hash function codes in
+As the pymultihash specification indicates, you may use hash function codes in
 the range 0x00-0x0f to specify application-specific hash functions.
 The `decode()` function allows such multihashes, and the `Multihash`
 constructor allows specifying such hash functions by their integer code:
 
->>> import multihash
+>>> import pymultihash
 >>> import hashlib
 >>> data = b'foo'
->>> mh = multihash.Multihash(0x05, hashlib.md5(data).digest())
+>>> mh = pymultihash.Multihash(0x05, hashlib.md5(data).digest())
 >>> print(mh)  # doctest: +ELLIPSIS
 Multihash(0x5, b64:rL0Y20zC+Fzt72VPzMSk2A==)
 
@@ -136,7 +136,7 @@ However this does not allow using more intuitive strings instead of numbers
 for application-specific functions, and digesting or verifying with such a
 function is not possible:
 
->>> multihash.digest(data, 'md5')
+>>> pymultihash.digest(data, 'md5')
 Traceback (most recent call last):
     ...
 KeyError: ('unknown hash function', 'md5')
@@ -150,15 +150,15 @@ of hash functions.  You may add your application-specific hash functions there
 with a code, a name, and optionally a name and a callable object for
 hashlib-compatible operations:
 
->>> multihash.FuncReg.register(0x05, 'md-5', 'md5', hashlib.md5)
->>> multihash.digest(data, 'md-5')  # doctest: +ELLIPSIS
+>>> pymultihash.FuncReg.register(0x05, 'md-5', 'md5', hashlib.md5)
+>>> pymultihash.digest(data, 'md-5')  # doctest: +ELLIPSIS
 Multihash(func=5, digest=b'...')
 >>> mh.verify(data)
 True
 
 You may remove your application-specific functions from the registry as well:
 
->>> multihash.FuncReg.unregister(0x05)
+>>> pymultihash.FuncReg.unregister(0x05)
 
 `FuncReg` also allows you to iterate over registered functions (as `Func`
 members or function codes), and check if it contains a given function
@@ -188,14 +188,14 @@ your own ones (or replace existing ones) with a name and encoding and decoding
 callables that get and return byte strings.  For instance, to add the uuencode
 codec:
 
->>> import multihash
+>>> import pymultihash
 >>> import binascii
->>> multihash.CodecReg.register('uu', binascii.b2a_uu, binascii.a2b_uu)
+>>> pymultihash.CodecReg.register('uu', binascii.b2a_uu, binascii.a2b_uu)
 
 To use it:
 
 >>> mhash = b'6$10+[L>UZC\\\\/V\\\\E=#=1_/%O"==J*,P  \\n'
->>> mh = multihash.decode(mhash, 'uu')
+>>> mh = pymultihash.decode(mhash, 'uu')
 >>> print(mh)
 Multihash(sha1, b64:C+7Hteo/D9vJXQ3UfzxbwnXaijM=)
 >>> mh.encode('uu') == mhash
@@ -203,7 +203,7 @@ True
 
 You may remove any codec from the registry as well:
 
->>> multihash.CodecReg.unregister('uu')
+>>> pymultihash.CodecReg.unregister('uu')
 
 `CodecReg` also allows you to iterate over registered codec names, and check
 if it contains a given codec (i.e. whether it is registered or not).
@@ -214,10 +214,10 @@ True
 True
 """
 
-from multihash.version import __version__  # noqa
-from multihash.funcs import Func, FuncReg  # noqa
-from multihash.codecs import CodecReg  # noqa
-from multihash.multihash import Multihash, digest, decode  # noqa
+from pymultihash.version import __version__  # noqa
+from pymultihash.funcs import Func, FuncReg  # noqa
+from pymultihash.codecs import CodecReg  # noqa
+from pymultihash.multihash import Multihash, digest, decode  # noqa
 
 __all__ = [
     "__version__",

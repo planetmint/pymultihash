@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 thisdir = os.path.abspath(os.path.dirname(__file__))
 
 # Fetch version from source.
-with open(os.path.join(thisdir, "multihash", "version.py")) as verfile:
+with open(os.path.join(thisdir, "pymultihash", "version.py")) as verfile:
     version = {}
     exec(verfile.read(), version)
     version = version["__version__"]

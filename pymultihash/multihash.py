@@ -9,8 +9,8 @@ from collections import namedtuple
 
 import base64
 
-from multihash.funcs import _is_app_specific_func, Func, FuncReg
-from multihash.codecs import CodecReg
+from pymultihash.funcs import _is_app_specific_func, Func, FuncReg
+from pymultihash.codecs import CodecReg
 
 
 def _do_digest(data, func):

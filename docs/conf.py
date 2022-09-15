@@ -57,9 +57,9 @@ author = "Ivan Vilata-i-Balaguer"
 # built documents.
 #
 # The short X.Y version.
-import multihash.version
+import pymultihash.version
 
-version = multihash.version.__version__
+version = pymultihash.version.__version__
 # The full version, including alpha/beta/rc tags.
 release = version
 
